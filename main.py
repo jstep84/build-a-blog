@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] =  True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:build-a-blog@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:abc123@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 app.secret_key = 'y337kGcys&zP3B'
@@ -89,13 +89,53 @@ def newpost():
 
     return redirect('/blog')
 
-@app.route('/singleBlogs', methods=['POST', 'GET'])
-def singleBlogs():
 
-    blog_id_title = request.args.get('blog-id-title')
-    blog_id_body = request.args.get('blog-id-body')
-    blogs = Blog.query.get("blog.id")
-    return render_template('singleBlogEntries.html', blog_id_body=blog_id_body, blog_id_title=blog_id_title, blogs=blogs)
+@app.route('/singleblog', methods=['GET'])
+def singleBlog():
+
+    if request.args.get('id'):
+        blog_id = request.args.get('id')
+        print("Your ID is: " + blog_id)      
+        blog = Blog.query.get(blog_id)
+        return render_template('singleblog.html', blog=blog)
+    else:
+        print('no record of this post')
+
+    #blogs = Blog.query.filter_by(submitted=False).all() 
+
+    #blog_id_title = request.args.get('blog-id-title')
+    #blog_id_body = request.args.get('blog-id-body')       
+
+    
 
 if __name__ == '__main__':
     app.run()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
